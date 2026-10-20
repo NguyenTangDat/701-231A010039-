@@ -1,4 +1,3 @@
-// Script chung khởi tạo các tính năng nhỏ hoặc quản lý chung layout nếu cần
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Website Lập Trình Web - Đề số 1 loaded successfully.");
+    console.log("Website Lập Trình Web - Nguyễn Tăng Đạt (701-231A010039) loaded successfully.");
 });
