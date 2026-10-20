@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập 2 - Form Đăng Ký</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">701-DH23501</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trang Chủ</a></li>
+                    <li><a href="lythuyet.html">a) Trả lời Lý thuyết</a></li>
+                    <li><a href="baitap01.html">Bài Tập 1</a></li>
+                    <li><a href="baitap22.html">c) Bài Tập 22</a></li>
+                    <li><a href="baitap23.html">b) Bài Tập 23</a></li>
+                    <li><a href="diemdanh.html">d) Điểm Danh</a></li>
+                    <li><a href="about.html">Giới Thiệu</a></li>
+                    <li><a href="contact.html">Liên Hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="card">
+            <div class="form-container">
+                <h1>Đăng Ký Người Dùng</h1>
+                <form id="regForm">
+                    <div class="form-group">
+                        <label for="fullname">Họ và Tên:</label>
+                        <input type="text" id="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                        <div id="emailErr" class="error-msg"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" required>
+                        <div style="font-size: 0.8rem; color: #666;">(Ít nhất 8 ký tự, có chữ hoa, chữ thường và số)</div>
+                        <div id="passErr" class="error-msg"></div>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="terms" style="width: auto;">
+                        <label for="terms" style="margin-bottom: 0;">Đồng ý với các điều khoản dịch vụ</label>
+                    </div>
+                    <button type="submit">Đăng Ký</button>
+                    <div id="successMsg" class="success-msg"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 - MSSV: 701-DH23501 - Lập Trình Web</p>
+    </footer>
+
+    <script>
+        const regForm = document.getElementById("regForm");
+        regForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const name = document.getElementById("fullname").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const terms = document.getElementById("terms").checked;
+
+            document.getElementById("emailErr").textContent = "";
+            document.getElementById("passErr").textContent = "";
+            document.getElementById("successMsg").textContent = "";
+
+            // Validate email cơ bản
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById("emailErr").textContent = "Email không hợp lệ!";
+                return;
+            }
+
+            // Validate password: ít nhất 8 ký tự, có chữ hoa, chữ thường, số
+            const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passRegex.test(password)) {
+                document.getElementById("passErr").textContent = "Mật khẩu phải từ 8 ký tự trở lên, gồm chữ hoa, chữ thường và số!";
+                return;
+            }
+
+            if (!terms) {
+                alert("Vui lòng đồng ý với điều khoản dịch vụ!");
+                return;
+            }
+
+            // Lưu LocalStorage (bảo mật dữ liệu cục bộ, tránh lưu mật khẩu dạng plaintext tuyệt đối trong môi trường thực tế)
+            const userData = { name, email, password: btoa(password) }; // mã hóa base64 minh họa
+            localStorage.setItem("registeredUser", JSON.stringify(userData));
+
+            document.getElementById("successMsg").textContent = "Đăng ký thành công và đã lưu vào LocalStorage!";
+            regForm.reset();
+        });
+    </script>
+</body>
+</html>
